@@ -1,15 +1,8 @@
 name: dora
 channels:
   - defaults
-  - nvidia
-  - pytorch
+  - conda-forge
 dependencies:
-  - python==3.8.18
-  - pytorch-cuda=11.7
-  - pytorch==1.13.1
-  - torchaudio==0.13.1
-  - torchvision==0.14.1
-  - faiss-gpu
   - lmdb
   - munkres
   - pillow==9.4.0
@@ -19,12 +12,3 @@ dependencies:
   - six
   - tensorboardx
   - tqdm
-  - ipykernel
-  pip:
-    - einops
-    - decord
-    - matplotlib
-    - DALL-E
-    - deface
-
-

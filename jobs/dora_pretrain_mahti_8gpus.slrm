@@ -4,7 +4,7 @@
 #SBATCH --output=/projappl/project_2006256/mereuric/DoRA/logs/dora.o%j # Name of stdout output file
 #SBATCH --error=/projappl/project_2006256/mereuric/DoRA/logs/dora.e%j  # Name of stderr error file
 #SBATCH --partition=gpumedium  # partition name
-#SBATCH --nodes=1               # Total number of nodes 
+#SBATCH --nodes=2               # Total number of nodes 
 #SBATCH --ntasks-per-node=4     # 8 MPI ranks per node, 16 total (2x8)
 #SBATCH --gres=gpu:a100:4,nvme:10       # Allocate one gpu per MPI rank
 #SBATCH --time=36:00:00       # Run time (d-hh:mm:ss)
@@ -25,8 +25,7 @@ cp /scratch/project_2006256/data/WTDataset/venice.mp4 $LOCAL_SCRATCH/WTDataset/
 
 set -x
 
-python -m torch.distributed.launch --nproc_per_node=4 main.py \
-    --arch vit_small \
+python -m torch.distributed.launch --nproc_per_node=4 main.py --arch vit_small \
     --data_path $LOCAL_SCRATCH/WTDataset/venice.mp4 \
     --output_dir /projappl/project_2006256/mereuric/DoRA/logs/weights_WTours/DoRA/venice_8frames/ \
     --optimizer adamw \
@@ -35,7 +34,7 @@ python -m torch.distributed.launch --nproc_per_node=4 main.py \
     --batch_size_per_gpu 16 \
     --local_crops_number 6 \
     --epochs 100 \
-    --num_workers 4 \
+    --num_workers 32 \
     --lr 0.0005 \
     --min_lr 0.00001 \
     --norm_last_layer False \
